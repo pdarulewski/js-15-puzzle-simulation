@@ -21,16 +21,29 @@
             color: #000 !important;
             font-family: Montserrat !important;
         }
+        
+        /* table {
+            text-align: center;
+            border-collapse: collapse;
+            display: table;
+            padding-top: 50vh;
+            padding-left: 50vh;
+        } */
+
         th, td {
-            padding: 15px;
+            padding: 10px;
             text-align: center;
         }
     </style>
 </head>
 
 <body>
-    <div>
-        <span id="board-1"></span>
+    Puzzle:
+    <input id="puzzle">
+    Directions:
+    <input id="directions">
+    <button id="button" onclick="start()">Start</button>
+    <div id="board-1" style="width: 100%">
     </div>
 
     <script src="index.js">

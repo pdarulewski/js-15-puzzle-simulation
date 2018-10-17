@@ -77,7 +77,7 @@ class Board {
             [this._array1D[where], this._array1D[where + D]] = [this._array1D[where + D], this._array1D[where]];
         } else if (step == "L") {
             [this._array1D[where], this._array1D[where + L]] = [this._array1D[where + L], this._array1D[where]];
-        } else {
+        } else if (step == "R") {
             [this._array1D[where], this._array1D[where + R]] = [this._array1D[where + R], this._array1D[where]];
         }
         this._array2D = this.make2D();
@@ -105,32 +105,55 @@ function createTable(tableData) {
 }
 
 
-var board = new Board(size = 16);
-board.printArray();
-document.getElementById('board-1').innerHTML = createTable(board.getArray());
+function getPuzzleFromUser() {
+    var puzzle = document.getElementById('puzzle').value;
+    puzzle = puzzle.slice(1, -1);
+    return puzzle.split(", ")
+}
+
+function getDirectionsFromUser() {
+    var dirs = document.getElementById('directions').value;
+    return dirs.split(" ");
+}
+
+// var board = new Board(size = 16);
+// board.printArray();
 
 // var a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 // var board2 = new Board(a);
 // board2.printArray();
+// [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+// R R R D D L L
+// var b = ["R", "R", "R", "D", "D", "L", "L"];
+// [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
+// D D D D D R R R U D L R L L 
 
-var b = ["R", "R", "R", "D", "D", "L", "L"];
-
-async function simulate(dirs) {
-    for (let i = 0; i < dirs.length; i++) {
-        // TODO: add reloading div without refreshing page
-        board.moveBlank(b[i]);
+async function simulate(board, dirs) {
+    for (let i = 0; i <= dirs.length; i++) {
         board.printArray();
+        document.getElementById('board-1').style.display = "none";
         document.getElementById('board-1').innerHTML = createTable(board.getArray());
-        await sleep(2000);
+        document.getElementsByTagName("table")[i].setAttribute("id", [i]);
+        if (i > 0) {
+            document.getElementById([i]).style.display = "block";
+            document.getElementById([i-1]).style.display = "none";
+        }
+        if(i == dirs.length) {
+            return
+        }
+        board.moveBlank(dirs[i]);
+        console.log(dirs[i])
+        await sleep(500);
     }
 }
 
-simulate(b);
+function start() {
+    document.getElementById("button").disabled = true; 
+    puzzle = getPuzzleFromUser();
+    dirs = getDirectionsFromUser();
 
+    var board = new Board(puzzle)
 
-
-
-
-
-
+    simulate(board, dirs);
+}
 
