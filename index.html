@@ -22,28 +22,46 @@
             font-family: Montserrat !important;
         }
         
-        /* table {
+        table {
             text-align: center;
             border-collapse: collapse;
             display: table;
-            padding-top: 50vh;
-            padding-left: 50vh;
-        } */
+            padding-top: 10vh;
+            padding-left: 55vh;
+        }
 
         th, td {
             padding: 10px;
             text-align: center;
+        }
+
+        .wrapper {
+            text-align: center;
+        }
+
+        .button {
+            position: absolute;
+            top: 50%;
+            margin-top: 20px; 
+            margin-bottom: 20px;
         }
     </style>
 </head>
 
 <body>
     Puzzle:
-    <input id="puzzle">
+    <input id="puzzle" style="margin-right:40px">
+
     Directions:
     <input id="directions">
-    <button id="button" onclick="start()">Start</button>
-    <div id="board-1" style="width: 100%">
+    
+    <div class="wrapper">
+        <button id="button" onclick="start()">
+            Start
+        </button>
+    </div>
+    
+    <div id="board" style="width: 100%">
     </div>
 
     <script src="index.js">

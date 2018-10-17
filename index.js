@@ -1,7 +1,3 @@
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 class Board {
 
     constructor(obj) {
@@ -104,7 +100,6 @@ function createTable(tableData) {
     document.body.appendChild(table);
 }
 
-
 function getPuzzleFromUser() {
     var puzzle = document.getElementById('puzzle').value;
     puzzle = puzzle.slice(1, -1);
@@ -116,44 +111,50 @@ function getDirectionsFromUser() {
     return dirs.split(" ");
 }
 
-// var board = new Board(size = 16);
-// board.printArray();
-
-// var a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-// var board2 = new Board(a);
-// board2.printArray();
-// [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-// R R R D D L L
-// var b = ["R", "R", "R", "D", "D", "L", "L"];
-// [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
-// D D D D D R R R U D L R L L 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 async function simulate(board, dirs) {
     for (let i = 0; i <= dirs.length; i++) {
         board.printArray();
-        document.getElementById('board-1').style.display = "none";
-        document.getElementById('board-1').innerHTML = createTable(board.getArray());
+
+        document.getElementById('board').style.display = "none";                          // UNDEFINED
+        document.getElementById('board').innerHTML = createTable(board.getArray());
         document.getElementsByTagName("table")[i].setAttribute("id", [i]);
+        document.getElementById([i]).style.display = "block";
+
         if (i > 0) {
-            document.getElementById([i]).style.display = "block";
             document.getElementById([i-1]).style.display = "none";
         }
-        if(i == dirs.length) {
+        if (i == dirs.length) {
             return
         }
         board.moveBlank(dirs[i]);
         console.log(dirs[i])
-        await sleep(500);
+        await sleep(200);
     }
 }
 
 function start() {
+    // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63];
+    // "R D D R D R U R D D D L R D R R"
+
     document.getElementById("button").disabled = true; 
+    
     puzzle = getPuzzleFromUser();
     dirs = getDirectionsFromUser();
 
     var board = new Board(puzzle)
 
+    var list = document.getElementsByTagName("table");
+
+    for(let i = list.length - 1; i >= 0; i--) {
+        list[i].remove();
+    }
+
     simulate(board, dirs);
+
+    document.getElementById("button").disabled = false;
 }
 
