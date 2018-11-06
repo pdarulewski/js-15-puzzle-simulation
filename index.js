@@ -6,11 +6,9 @@ class Board {
             this._length = Math.sqrt(this._size);
             this._array1D = this.generateArray();
             this.shuffle();
-            this._array1D.unshift("")
             this._array2D = this.make2D();
         } else {
             this._array1D = obj;
-            this._array1D.unshift("")
             this._size = this._array1D.length
             this._length = Math.sqrt(this._size);
             this._array2D = this.make2D();
@@ -19,7 +17,7 @@ class Board {
 
     generateArray() {
         var array = [];
-        for (let i = 1; i < this._size; i++) {
+        for (let i = 0; i < this._size; i++) {
             array.push(i);
         }
         return array;
@@ -56,13 +54,13 @@ class Board {
     }
 
     moveBlank(step) {
-        var U = -this._length;
-        var D = this._length;
-        var L = -1;
-        var R = 1;
+        var U = this._length;
+        var D = -this._length;
+        var L = 1;
+        var R = -1;
 
         function blank(element) {
-            return element == "";
+            return element == 0;
         }
 
         var where = this._array1D.findIndex(blank);
@@ -108,7 +106,7 @@ function getPuzzleFromUser() {
 
 function getDirectionsFromUser() {
     var dirs = document.getElementById('directions').value;
-    return dirs.split(" ");
+    return dirs.split("");
 }
 
 function sleep(ms) {
